@@ -108,7 +108,6 @@ namespace netdos
                         Console.ForegroundColor = ConsoleColor.DarkGray;
                         Console.ForegroundColor = ConsoleColor.Black;
                         curLine = Console.ReadLine();
-                        if (ConsoleKeyInfo.Equals(ConsoleKey.UpArrow))
                         if (curLine == "")
                         {
                             break;
