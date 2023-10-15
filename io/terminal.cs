@@ -17,9 +17,10 @@ namespace netdos
         public static void execute(string[] arg)
         {
             
-            if (!arg[0].EndsWith(".com"))
+            if (!arg[0].EndsWith(".run"))
             {
                 arg[0] = arg[0].ToLower();
+                string filecom = arg[0];
             }
             else
             {
@@ -33,11 +34,7 @@ namespace netdos
                     Thread.Sleep(delay);
                     break;
                 case "ver":
-                    interpreter.executeProgramm(@"0:\System\Apps\Version.com");
-                    break;
-                case "pause":
-                    Console.Write("Press any key to continue...");
-                    Console.ReadKey();
+                    CBreakInterpreter.StartCompile(@"0:\System\Apps\Version.run");
                     break;
                 case "write":
                     if (!String.IsNullOrEmpty(arg[1]))
@@ -143,7 +140,7 @@ namespace netdos
                     FS.curPath = @"0:\";
                     break;
                 case "edit":
-                    interpreter.editFile(FS.curPath + arg[1]);
+                    FileEditor.OpenFile(FS.curPath, arg[1]);
                     break;
                 case "up":
                     goUp();
@@ -167,7 +164,7 @@ namespace netdos
                     Console.WriteLine(uniteArgs(arg, 1, true));
                     break;
                 case "help":
-                    interpreter.executeProgramm(@"0:\System\Apps\Help.com");
+                    CBreakInterpreter.StartCompile(@"0:\System\Apps\Help.run");
                     break;
                 case "clear":
                     Console.Clear();
@@ -188,9 +185,9 @@ namespace netdos
                         //        Console.WriteLine("Error: The variable '" + name + "' has not been assigned a value.");
                         //    }
                         //}
-                        if (arg[0].EndsWith(".com"))
+                        if (arg[0].EndsWith(".run"))
                         {
-                            interpreter.executeProgramm(FS.curPath + arg[0]);
+                            CBreakInterpreter.StartCompile(FS.curPath + arg[0]);
                         }
                         else
                         {
@@ -252,9 +249,9 @@ namespace netdos
 
             foreach (var file in files_list) 
             {
-                if (file.EndsWith(".com"))
+                if (file.EndsWith(".run"))
                 {
-                    Console.WriteLine(" <COM>   " + file);
+                    Console.WriteLine(" <RUN>   " + file);
                 }
                 else if (file.EndsWith(".txt"))
                 {
@@ -272,7 +269,7 @@ namespace netdos
             }
             Console.WriteLine(" ");
         }
-        static string uniteArgs(string[] arg, int argsToRemove, bool addSpace)
+        public static string uniteArgs(string[] arg, int argsToRemove, bool addSpace)
         {
             for (int x = 0; x != arg.Length; x++)
             {

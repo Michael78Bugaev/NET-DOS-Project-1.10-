@@ -12,13 +12,6 @@ namespace netdos
 {
     public class Kernel : Sys.Kernel
     {
-        protected override void OnBoot()
-        {
-            base.OnBoot();
-            Console.WriteLine("Starting NET-DOS...");
-            Thread.Sleep(1000);
-            welcome.Screen();
-        }
         protected override void BeforeRun()
         {
             FS.initializeFs();
