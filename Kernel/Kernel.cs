@@ -6,7 +6,8 @@ using System.Text;
 using System.Threading;
 using Sys = Cosmos.System;
 using System.ComponentModel.Design;
-using netdos.techscr;
+using netdos.Graphic;
+using netdos.Network.Configure;
 
 namespace netdos
 {
@@ -16,10 +17,9 @@ namespace netdos
         {
             FS.initializeFs();
             BootLoader.Boot();
+            NetworkConfiguration.Configure();
             
-            Console.Clear();
-            welcome.Screen();
-            Console.WriteLine("\n");
+            TaskBar.Show(0);
 
         }
 

@@ -111,8 +111,14 @@ namespace netdos
                 "",
                 "Example CBreak program:",
                 "",
-                ""
+                "echo Hello, world!",
+                "pause",
+                "echo bsod testing?",
+                "goto",
+                "bsod"
             };
+            File.Create(@"0:\readme.txt");
+            File.WriteAllLines(@"0:\readme.txt", readmetxt);
             string[] helpToWrite = {
                                 "echo NET-DOS Global Edition Help list ",
                                 "echo mf [name]___________________________create file",
@@ -141,7 +147,7 @@ namespace netdos
             File.Create(@"0:\SYS\Apps\Help.run");
             File.WriteAllLines(@"0:\SYS\Apps\Help.run", helpToWrite);
             File.Create(@"0:\SYS\Apps\Version.com");
-            File.WriteAllLines(@"0:\SYS\Apps\Version.com", versiontowrite);
+            File.WriteAllLines(@"0:\SYS\Apps\Version.run", versiontowrite);
             Cosmos.System.Power.Reboot();
         }
 

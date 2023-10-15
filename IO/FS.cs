@@ -6,7 +6,7 @@ namespace netdos
     public static class FS
     {
         //After-boot directory.
-        private static string stdPath = @"0:\";
+        private static string stdPath = @"0:\SYS\User\";
         //Current directory.
         public static string curPath;
 

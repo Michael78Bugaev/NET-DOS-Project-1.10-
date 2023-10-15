@@ -1,4 +1,5 @@
-﻿using System;
+﻿using netdos.Etc;
+using System;
 using System.IO;
 using System.Threading;
 
@@ -12,26 +13,38 @@ namespace netdos
             {
                 if (!path.EndsWith(".run"))
                 {
-                    Console.WriteLine("CBreak interpreter: Cannot to execute/compile non .run file!")
+                    Console.WriteLine("CBreak interpreter: Cannot to execute/compile non .run file!");
                 }
                 else
                 {
                     string[] lines = File.ReadAllLines(path);
                     foreach (string line in lines)
                     {
-                        string[] arg = Console.ReadLine().Split(' ', StringSplitOptions.TrimEntries);
+                        string[] argument = line.Split(' ', StringSplitOptions.TrimEntries);
 
-                        switch (arg[0])
+                        switch (argument[0])
                         {
+                            case "":
+                                break;
+                            case "fcolor":
+                                Console.Clear();
+                                int x = Convert.ToInt32(argument[1]);
+                                Unenum.foregroundcolor(x);
+                                break;
+                            case "bcolor":
+                                Console.Clear();
+                                int y = Convert.ToInt32(argument[1]);
+                                Unenum.backgroundcolor(y);
+                                break;
                             case "cls":
                                 Console.Clear();
                                 Console.WriteLine();
                                 break;
                             case "echo":
-                                Console.WriteLine(terminal.uniteArgs(arg, 1, true));
+                                Console.WriteLine(terminal.uniteArgs(argument, 1, true));
                                 break;
                             case "sleep":
-                                int seconds = Convert.ToInt32(arg[1]);
+                                int seconds = Convert.ToInt32(argument[1]);
                                 int af = seconds * 1000;
                                 Thread.Sleep(af);
                                 break;
@@ -43,7 +56,7 @@ namespace netdos
                                 Console.ReadKey();
                                 break;
                             case "call":
-                                switch (arg[1])
+                                switch (argument[1])
                                 {
                                     case "bsod":
                                         bsoe.Screen("SYSTEM_FILECOMPILE");
@@ -52,13 +65,14 @@ namespace netdos
                                         Cosmos.System.Power.Shutdown();
                                         break;
                                     default:
-                                        Console.WriteLine("Can't call empty system block!");
+                                        Console.WriteLine("Error: Can't call the '" + argument[1]+"' block. Reason: Unknown block.");
                                         break;
                                 }
                                 break;
                             default:
                                 Console.WriteLine(@"The program\command has been stopped. Reason: Unknown command.");
                                 break;
+
                         }
                     }
                 }                               

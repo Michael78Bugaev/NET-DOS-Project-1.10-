@@ -1,14 +1,9 @@
-﻿using System;
+﻿using netdos.Etc;
+using netdos.Graphic;
+using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using Cosmos.Core;
-using Sys = Cosmos.System;
-using System.ComponentModel.Design;
 using System.Threading;
+using Sys = Cosmos.System;
 
 namespace netdos
 {
@@ -16,7 +11,7 @@ namespace netdos
     {
         public static void execute(string[] arg)
         {
-            
+
             if (!arg[0].EndsWith(".run"))
             {
                 arg[0] = arg[0].ToLower();
@@ -29,12 +24,22 @@ namespace netdos
 
             switch (arg[0])
             {
+                case "colorf":
+                    Console.Clear();
+                    int x = Convert.ToInt32(arg[1]);
+                    Unenum.foregroundcolor(x);
+                    break;
+                case "colorb":
+                    Console.Clear();
+                    int y = Convert.ToInt32(arg[1]);
+                    Unenum.backgroundcolor(y);
+                    break;
                 case "sleep":
                     int delay = Convert.ToInt32(arg[1]);
                     Thread.Sleep(delay);
                     break;
                 case "ver":
-                    CBreakInterpreter.StartCompile(@"0:\System\Apps\Version.run");
+                    CBreakInterpreter.StartCompile(@"0:\SYS\Apps\Version.run");
                     break;
                 case "write":
                     if (!String.IsNullOrEmpty(arg[1]))
@@ -46,7 +51,7 @@ namespace netdos
                                 case "$dos":
                                     Console.WriteLine("easter egg!");
                                     break;
-                                default:
+                                case "$easterrgg":
                                     while (true)
                                     {
                                         Console.BackgroundColor = ConsoleColor.Magenta;
@@ -77,6 +82,9 @@ namespace netdos
                                         Console.Clear();
                                         Sys.PCSpeaker.Beep(5842, 2);
                                     }
+                                default:
+                                    Console.WriteLine("default");
+                                    break;
                             }
                         }
                         else
@@ -130,7 +138,7 @@ namespace netdos
                         {
                             Console.WriteLine("Directory '" + arg[1] + "' does not exist!");
                         }
-                    } 
+                    }
                     catch
                     {
                         bsoe.Screen("TERMINAL_COMMAND_OTHER");
@@ -140,7 +148,7 @@ namespace netdos
                     FS.curPath = @"0:\";
                     break;
                 case "edit":
-                    FileEditor.OpenFile(FS.curPath, arg[1]);
+                    FileEditor.Start(FS.curPath + arg[1]);
                     break;
                 case "up":
                     goUp();
@@ -155,7 +163,7 @@ namespace netdos
                     bsoe.Screen("TERMINAL_COMMAND_BSOD");
                     break;
                 case "dir":
-                    dir(FS.curPath);                  
+                    dir(FS.curPath);
                     break;
                 case "cd":
                     changeDir(arg[1]);
@@ -164,11 +172,10 @@ namespace netdos
                     Console.WriteLine(uniteArgs(arg, 1, true));
                     break;
                 case "help":
-                    CBreakInterpreter.StartCompile(@"0:\System\Apps\Help.run");
+                    CBreakInterpreter.StartCompile(@"0:\SYS\Apps\Help.run");
                     break;
                 case "clear":
-                    Console.Clear();
-                    Console.Write("\n");
+                    TaskBar.Show(0);
                     break;
                 default:
                     try
@@ -198,7 +205,7 @@ namespace netdos
                     {
                         Console.WriteLine("Unknown command, or executable file.\n");
                     }
-                    
+
                     break;
             }
         }
@@ -247,7 +254,7 @@ namespace netdos
 
             Console.WriteLine("");
 
-            foreach (var file in files_list) 
+            foreach (var file in files_list)
             {
                 if (file.EndsWith(".run"))
                 {
@@ -261,7 +268,7 @@ namespace netdos
                 {
                     Console.WriteLine(" <FILE>  " + file);
                 }
-                
+
             }
             foreach (var directory in directory_list)
             {
